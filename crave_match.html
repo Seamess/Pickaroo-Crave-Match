@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pickaroo Crave Match</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Pickaroo Crave Match — Swipe</title>
+    <meta name="description" content="Swipe right on what you're craving! Find the perfect food match for your group.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="crave_match.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -12,6 +13,8 @@
 <body>
 
 <div class="phone-container">
+    <canvas id="confetti-canvas"></canvas>
+
     <div class="status-bar">
         <div class="time">9:42</div>
         <div class="icons">
@@ -23,28 +26,42 @@
 
     <div class="header">
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i></a>
-        <h1>Crave Match <i class="fa-solid fa-fire" style="color: var(--cerise); font-size: 1rem;"></i></h1>
-        <div class="hunters-joined">3/5 Swiping</div>
+        <h1>Crave Match <i class="fa-solid fa-fire fire-icon"></i></h1>
+        <div class="swipers-badge">
+            <span class="pulse-dot"></span> 3/5 Swiping
+        </div>
     </div>
 
-    <div class="scrollable-content swipe-view">
-        <div class="instruction-text">Swipe right for what you're craving!</div>
-        
+    <!-- Mini live activity ticker -->
+    <div class="mini-activity" id="mini-activity">
+        <span class="activity-emoji">🍕</span>
+        <span><strong>Raff</strong> just craved Pizza</span>
+    </div>
+
+    <!-- Progress dots -->
+    <div class="progress-dots" id="progress-dots">
+        <!-- Populated by JS -->
+    </div>
+
+    <div class="swipe-view">
         <div class="card-container" id="card-container">
-            <!-- Cards will be injected by JS -->
+            <!-- Cards injected by JS -->
         </div>
 
         <div class="action-controls">
-            <button class="control-btn no-btn" id="btn-no">
+            <button class="control-btn no-btn" id="btn-no" aria-label="Nope">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <button class="control-btn heart-btn" id="btn-yes">
-                <i class="fa-solid fa-heart"></i>
+            <button class="control-btn crave-btn" id="btn-yes" aria-label="Crave it">
+                <i class="fa-solid fa-fire flame-icon"></i>
+            </button>
+            <button class="control-btn refresh-btn" id="btn-refresh" aria-label="Refresh deck">
+                <i class="fa-solid fa-shuffle"></i>
             </button>
         </div>
     </div>
 
-    <div class="footer glass-footer">
+    <div class="footer">
         <div class="home-indicator"></div>
     </div>
 </div>

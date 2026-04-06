@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pickaroo Shared Order</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Pickaroo — Hub Ordering</title>
+    <meta name="description" content="Build your group order from the hub. Split payments easily with friends.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="shared_order.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -13,7 +14,7 @@
 
 <div class="phone-container">
     <div class="status-bar">
-        <div class="time">9:41</div>
+        <div class="time">9:43</div>
         <div class="icons">
             <i class="fa-solid fa-signal" style="font-size: 0.70rem;"></i>
             <i class="fa-solid fa-wifi" style="font-size: 0.70rem; margin: 0 3px;"></i>
@@ -27,116 +28,184 @@
     </div>
 
     <div class="scrollable-content">
-        <!-- Crave Match Feature intro -->
-        <div class="crave-match-card glass-card">
-            <div class="crave-header">
-                <i class="fa-solid fa-fire" style="color: var(--cerise); font-size: 1.2rem;"></i>
-                <h3>Crave Match active</h3>
-            </div>
-            <p>Sarah and 2 others are swiping on what to eat. We'll pick the perfect hub soon!</p>
-            <button class="btn-subtle" onclick="Swal.fire('Crave Match', 'Swipe left or right on cuisines to find the perfect group match!', 'info')">Join the Swipe</button>
+
+        <!-- Live Activity Mini Feed -->
+        <div class="mini-feed" id="mini-feed">
+            <span class="pulse-dot"></span>
+            <span><strong>Raff</strong> added Cheeseburger from Burger Joint</span>
         </div>
 
-        <!-- Pickaroo Hubs Feature -->
-        <div class="hub-container glass-card">
+        <!-- Match Summary Badge -->
+        <div class="match-badge">
+            <div class="match-icon">🍔</div>
+            <div class="match-info">
+                <p class="match-title">Smash Burgers + Pizza matched!</p>
+                <p class="match-sub">4 of 5 hunters craved this</p>
+            </div>
+            <div class="hub-pill"><i class="fa-solid fa-shop" style="margin-right: 3px;"></i> Uptown Mall</div>
+        </div>
+
+        <!-- Hub + Orders -->
+        <div class="section-card">
             <div class="hub-header">
                 <div>
-                    <span class="badge">Unified Hub Delivery</span>
+                    <span class="hub-badge">Unified Hub Delivery</span>
                     <h2>Uptown Mall Hub</h2>
-                    <p class="subtitle">1 Delivery Fee • 3 Restaurants</p>
+                    <p class="hub-subtitle">1 Delivery Fee • 3 Restaurants</p>
                 </div>
-                <div class="fee-badge">₱49 Fee</div>
+                <div class="fee-badge">₱49</div>
             </div>
 
-            <!-- User's Cart -->
-            <div class="user-cart">
-                <h3>Your Items</h3>
-                <div id="self-order-list" class="empty-state">
-                    Tap below to add from Uptown Mall
+            <!-- Your Items -->
+            <div class="your-cart-section">
+                <h3 class="section-title">Your Items</h3>
+                <div id="self-order-list" class="empty-cart">
+                    Tap below to add from Uptown Mall 🍽️
                 </div>
-                <button id="add-more-btn" class="btn-dashed">
-                    <i class="fa-solid fa-plus"></i> Add from Hub
+                <button id="add-more-btn" class="btn-add">
+                    <i class="fa-solid fa-plus" style="margin-right: 6px;"></i>Add from Hub
                 </button>
             </div>
 
-            <!-- Friends' Carts -->
-            <div class="friends-cart">
-                <h3>Group Items</h3>
-                
-                <div class="order-item">
-                    <div class="avatar raff-avatar">R</div>
-                    <div class="item-details">
-                        <div class="item-header">
-                            <span class="name">Raff (Burger Joint)</span>
-                            <span class="price">₱210.00</span>
-                        </div>
-                        <div class="sub-item">
-                            <span>1x Medium Fries</span>
-                            <span>₱80.00</span>
-                        </div>
-                        <div class="sub-item">
-                            <span>1x Cheeseburger</span>
-                            <span>₱130.00</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- Group Items -->
+            <h3 class="section-title">Group Items</h3>
 
-                <div class="order-item">
-                    <div class="avatar maan-avatar">M</div>
-                    <div class="item-details">
-                        <div class="item-header">
-                            <span class="name">Maan (Pizza Corner)</span>
-                            <span class="price">₱350.00</span>
-                        </div>
-                        <div class="sub-item">
-                            <span>1x Family Pizza</span>
-                            <span>₱350.00</span>
-                        </div>
+            <div class="order-item" style="animation-delay: 0.05s;">
+                <div class="avatar raff-avatar">R</div>
+                <div class="item-details">
+                    <div class="item-header">
+                        <span class="name">Raff (Burger Joint)</span>
+                        <span class="price">₱210.00</span>
                     </div>
+                    <div class="sub-item"><span>1x Medium Fries</span><span>₱80.00</span></div>
+                    <div class="sub-item"><span>1x Cheeseburger</span><span>₱130.00</span></div>
                 </div>
+            </div>
 
-                <!-- Ally Drop User Feature -->
-                <div class="order-item" style="border: 2px solid rgba(29, 225, 206, 0.4); background: linear-gradient(to right, rgba(255,255,255,0.8), rgba(29, 225, 206, 0.05));">
-                    <div class="avatar" style="background: #4A90E2;">J</div>
-                    <div class="item-details">
-                        <div class="item-header">
-                            <div style="display: flex; flex-direction: column;">
-                                <span class="name">Jhon (Tokyo Sushi)</span>
-                                <span style="font-size: 0.7rem; color: var(--turquoise); font-weight: 700; text-transform: uppercase; margin-top: 2px;"><i class="fa-solid fa-location-dot"></i> Ally Drop (300m away)</span>
+            <div class="order-item" style="animation-delay: 0.1s;">
+                <div class="avatar maan-avatar">M</div>
+                <div class="item-details">
+                    <div class="item-header">
+                        <span class="name">Maan (Pizza Corner)</span>
+                        <span class="price">₱350.00</span>
+                    </div>
+                    <div class="sub-item"><span>1x Family Pizza</span><span>₱350.00</span></div>
+                </div>
+            </div>
+
+            <!-- Ally Drop — Enhanced -->
+            <div class="order-item ally-drop-item" style="animation-delay: 0.15s;">
+                <div class="avatar john-avatar">J</div>
+                <div class="item-details">
+                    <div class="item-header">
+                        <div>
+                            <span class="name">John (Tokyo Sushi)</span>
+                            <div>
+                                <span class="ally-tag"><i class="fa-solid fa-location-dot"></i> Ally Drop • 300m away</span>
+                                <span class="ally-savings"><i class="fa-solid fa-piggy-bank"></i> Saves ₱45 vs separate order</span>
                             </div>
-                            <span class="price">₱220.00</span>
                         </div>
-                        <div class="sub-item">
-                            <span>1x Spicy Tuna Roll</span>
-                            <span>₱220.00</span>
-                        </div>
+                        <span class="price">₱220.00</span>
+                    </div>
+                    <div class="sub-item"><span>1x Spicy Tuna Roll</span><span>₱220.00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Split Section -->
+        <div class="section-card split-section">
+            <h3 class="section-title">Split Payment</h3>
+
+            <!-- Segmented Control -->
+            <div class="segmented-control" id="split-mode">
+                <button class="seg-btn active" data-mode="even">Even Split</button>
+                <button class="seg-btn" data-mode="item">By Item</button>
+                <button class="seg-btn" data-mode="custom">Custom</button>
+            </div>
+
+            <!-- Split Breakdown -->
+            <div class="split-members" id="split-members">
+                <div class="split-row">
+                    <div class="split-avatar" style="background: var(--cerise);">Y</div>
+                    <span class="split-name">You</span>
+                    <span class="split-amount" id="your-share">₱0.00</span>
+                    <span class="split-status badge-you">Your share</span>
+                </div>
+                <div class="split-row">
+                    <div class="split-avatar" style="background: #FF9B71;">R</div>
+                    <span class="split-name">Raff</span>
+                    <span class="split-amount">₱208.50</span>
+                    <span class="split-status badge-paid">Paid</span>
+                </div>
+                <div class="split-row">
+                    <div class="split-avatar" style="background: #B388FF;">M</div>
+                    <span class="split-name">Maan</span>
+                    <span class="split-amount">₱208.50</span>
+                    <span class="split-status badge-pending">Pending</span>
+                </div>
+                <div class="split-row">
+                    <div class="split-avatar" style="background: #4A90E2;">J</div>
+                    <span class="split-name">John</span>
+                    <span class="split-amount">₱208.50</span>
+                    <span class="split-status badge-pending">Pending</span>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="payment-methods">
+                <div class="section-label">Pay with</div>
+                <div class="methods-scroll" id="payment-methods">
+                    <div class="method-card selected" data-method="gcash">
+                        <div class="method-icon gcash">G</div>
+                        <span class="method-name">GCash</span>
+                    </div>
+                    <div class="method-card" data-method="maya">
+                        <div class="method-icon maya">M</div>
+                        <span class="method-name">Maya</span>
+                    </div>
+                    <div class="method-card" data-method="card">
+                        <div class="method-icon card"><i class="fa-solid fa-credit-card" style="font-size: 0.85rem;"></i></div>
+                        <span class="method-name">Card</span>
+                    </div>
+                    <div class="method-card" data-method="cod">
+                        <div class="method-icon cod"><i class="fa-solid fa-money-bill-wave" style="font-size: 0.8rem;"></i></div>
+                        <span class="method-name">Cash on Delivery</span>
+                    </div>
+                    <div class="method-card" data-method="qrph">
+                        <div class="method-icon qrph"><i class="fa-solid fa-qrcode" style="font-size: 0.85rem;"></i></div>
+                        <span class="method-name">QR Ph</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Total Price Card -->
-        <div class="total-card glass-card">
+        <!-- Totals -->
+        <div class="section-card total-section">
             <div class="total-row">
-                <span>Subtotal</span>
-                <span>₱780.00</span>
+                <span class="label">Subtotal</span>
+                <span id="subtotal-display">₱780.00</span>
             </div>
             <div class="total-row">
-                <span>Hub Delivery Fee <i class="fa-solid fa-circle-info gray-icon"></i></span>
+                <span class="label">Hub Delivery Fee <i class="fa-solid fa-circle-info info-icon"></i></span>
                 <span>₱49.00</span>
             </div>
             <div class="total-row" style="color: var(--turquoise);">
-                <span>Ally Drop Fee (Jhon) <i class="fa-solid fa-handshake gray-icon"></i></span>
+                <span class="label">Ally Drop Fee (John) <i class="fa-solid fa-location-dot info-icon" style="color: var(--turquoise);"></i></span>
                 <span>+₱15.00</span>
+            </div>
+            <div class="total-row discount-row" id="discount-row" style="display: none;">
+                <span class="label"><i class="fa-solid fa-tag"></i> Stack Discount</span>
+                <span id="discount-display">-₱0.00</span>
             </div>
             <div class="total-row grand-total">
                 <span>Total</span>
-                <span id="total-price" style="color: var(--turquoise);">₱844.00</span>
+                <span class="amount" id="total-price">₱844.00</span>
             </div>
         </div>
+
     </div>
 
-    <div class="footer glass-footer">
+    <div class="footer">
         <button id="lock-order-btn" class="btn-primary">Lock Group Order</button>
         <div class="home-indicator"></div>
     </div>

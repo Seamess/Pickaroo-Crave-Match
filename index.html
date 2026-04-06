@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pickaroo Glass Group Hunt</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Pickaroo Crave Match — Group Hunt</title>
+    <meta name="description" content="Start a Crave Match with friends. Swipe on food, find what everyone craves, order together with one delivery.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="stylesheet.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
 <body>
 
@@ -23,121 +23,76 @@
     </div>
 
     <div class="header">
-        <i class="fa-solid fa-arrow-left"></i>
-        <h1>Pickaroo Group Hunt</h1>
+        <a href="#" class="back-link" id="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <h1>Crave Match <i class="fa-solid fa-fire fire-icon"></i></h1>
     </div>
 
     <div class="scrollable-content">
-        <div class="promo-card">
-            <h2>Pack & Share</h2>
-            <p>Gather your hunters! Score <b>20% off</b> when you reach 15 members.</p>
-            
-            <div class="hunt-progress">
-                <div class="progress-line">
-                    <div class="progress-fill" style="width: 30%;"></div>
+
+        <!-- Live Activity Feed -->
+        <div class="activity-feed slide-up" style="animation-delay: 0.1s;">
+            <div class="activity-feed-header">
+                <span class="pulse-dot"></span> Live Activity
+            </div>
+            <div class="activity-list" id="activity-list">
+                <div class="activity-item">
+                    <span class="activity-emoji">🟢</span>
+                    <span><strong>Raff</strong> joined the match</span>
+                    <span class="activity-time">just now</span>
                 </div>
-                <div class="progress-step active">
-                    <div class="icon-circle"><i class="fa-solid fa-users"></i></div>
-                    <span>3 Hunters</span>
-                    <span style="color: var(--cerise)">10%</span>
+                <div class="activity-item">
+                    <span class="activity-emoji">🍕</span>
+                    <span><strong>Maan</strong> is looking for pizza</span>
+                    <span class="activity-time">1m ago</span>
                 </div>
-                <div class="progress-step active">
-                    <div class="icon-circle"><i class="fa-solid fa-burger"></i></div>
-                    <span>7 Hunters</span>
-                    <span style="color: var(--cerise)">15%</span>
-                </div>
-                <div class="progress-step">
-                    <div class="icon-circle"><i class="fa-solid fa-bag-shopping"></i></div>
-                    <span>10 Hunters</span>
-                    <span style="color: var(--gray-text)">18%</span>
-                </div>
-                <div class="progress-step"> 
-                    <div class="icon-circle"><i class="fa-solid fa-gift"></i></div>
-                    <span>15+ Hunters</span>
-                    <span style="color: var(--gray-text)">20%</span>
+                <div class="activity-item">
+                    <span class="activity-emoji">⏰</span>
+                    <span>2h 45m left to order</span>
+                    <span class="activity-time"></span>
                 </div>
             </div>
         </div>
 
-        <!-- Crave Match Section -->
-        <div class="crave-match-banner" style="margin: 0 20px 20px 20px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 209, 220, 0.4)); border: 1px solid rgba(232, 54, 131, 0.2); padding: 20px; border-radius: 24px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); backdrop-filter: blur(10px);">
-            <i class="fa-solid fa-heart" style="position: absolute; top: -15px; right: -15px; font-size: 6rem; color: var(--cerise); opacity: 0.05; transform: rotate(15deg);"></i>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
-                <i class="fa-solid fa-fire" style="color: var(--cerise); font-size: 1.2rem;"></i>
-                <h3 style="margin: 0; color: #111; font-weight: 700; font-size: 1.1rem;">Crave Match</h3>
+        <!-- Stacking Discount Badge -->
+        <div class="discount-strip slide-up" style="animation-delay: 0.2s;">
+            <div class="discount-icon">
+                <i class="fa-solid fa-tags"></i>
             </div>
-            <p style="font-size: 0.85rem; color: var(--gray-text); margin: 0 0 16px 0; line-height: 1.4;">Can't decide what to eat? Share a quick swipe session link to find a Hub everyone loves!</p>
-            <button onclick="Swal.fire({
-                title: 'Share Link Copied!', 
-                text: 'Send this to your friends on messenger to start the swiping session.', 
-                icon: 'success', 
-                customClass: { popup: 'modern-modal', title: '' },
-                confirmButtonText: 'Got it'
-            })" style="background: var(--cerise); color: white; border: none; padding: 12px 24px; border-radius: 20px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(232, 54, 131, 0.3); width: 100%; transition: transform 0.2s;">
-                <i class="fa-solid fa-share-nodes" style="margin-right: 5px;"></i> Send Swiping Link
-            </button>
-        </div>
-
-        <div class="settings-list">
-            <div class="setting-item">
-                <div class="setting-icon"><i class="fa-solid fa-handshake"></i></div>
-                <div class="setting-content">
-                    <div class="setting-label">Payment Harmony</div>
-                    <div class="setting-value">Split-Pay with Pickaroo Wallet</div>
+            <div class="discount-info">
+                <p class="discount-title">Stack & Save</p>
+                <p class="discount-desc">Discounts stack! Invite friends + grow your basket.</p>
+                <div class="discount-tiers">
+                    <span class="tier-pill active"><i class="fa-solid fa-user-plus"></i> 5 friends = 5%</span>
+                    <span class="tier-pill"><i class="fa-solid fa-basket-shopping"></i> ₱500+ = 5%</span>
+                    <span class="tier-pill"><i class="fa-solid fa-bolt"></i> Max 10%</span>
                 </div>
-                <i class="fa-solid fa-pen" style="color: var(--cerise); font-size: 0.8rem;"></i>
-            </div>
-
-            <div class="setting-item">
-                <div class="setting-icon"><i class="fa-solid fa-clock"></i></div>
-                <div class="setting-content">
-                    <div class="setting-label">Deadline for adding items</div>
-                    <div class="setting-value">4:00 PM PST (3 Hours Left)</div>
-                </div>
-                <i class="fa-solid fa-pen" style="color: var(--cerise); font-size: 0.8rem;"></i>
-            </div>
-
-            <div class="setting-item">
-                <div class="setting-icon"><i class="fa-solid fa-bullhorn"></i></div>
-                <div class="setting-content">
-                    <div class="setting-label">Hunt Naming</div>
-                    <div class="setting-value">Megamall Munchies! 🍟</div>
-                </div>
-                <i class="fa-solid fa-pen" style="color: var(--cerise); font-size: 0.8rem;"></i>
             </div>
         </div>
 
-        <div class="hunt-masters">
-            <h3>Hunt Masters</h3>
-            <div class="avatar-row">
+        <!-- Members Strip -->
+        <div class="members-strip slide-up" style="animation-delay: 0.3s;">
+            <h3>Hunters</h3>
+            <div class="avatar-row" id="avatar-row">
                 <div class="avatar" style="background: #FFD1DC;"></div>
                 <div class="avatar" style="background: #D1FFFB;"></div>
                 <div class="avatar" style="background: #FFE4D1;"></div>
-                <div class="avatar" style="background: #E4D1FF;"></div>
-                <div class="avatar add-btn"><i class="fa-solid fa-share-nodes"></i></div>
             </div>
+            <button class="share-btn-small" id="share-btn" aria-label="Invite friends">
+                <i class="fa-solid fa-plus"></i>
+            </button>
         </div>
 
-        <div class="action-buttons" style="margin: 15px 20px; text-align: center;">
-            <a href="shared_order.html" style="text-decoration: none; display: block;">
-                <button id="add-items-btn" style="width: 100%; padding: 14px; border-radius: 12px; border: 2px dashed rgba(232, 54, 131, 0.5); background: rgba(232, 54, 131, 0.05); color: var(--cerise); font-weight: 600; cursor: pointer; transition: 0.2s;">
-                    <i class="fa-solid fa-forward-step" style="margin-right: 8px;"></i> Skip swipe, we know what we want!
-                </button>
-            </a>
+        <!-- Main CTA -->
+        <div class="cta-section slide-up" style="animation-delay: 0.4s;">
+            <button class="btn-primary pulse" id="start-swiping-btn">
+                Start Swiping <i class="fa-solid fa-fire" style="margin-left: 6px;"></i>
+            </button>
+            <a href="shared_order.html" class="skip-link">We already know what we want →</a>
         </div>
 
-        <div class="chat-box">
-            <div class="chat-header">Hunt Chat</div>
-            <div style="font-size: 0.85rem; display: flex; align-items: center;">
-                <div class="avatar" style="width: 20px; height: 20px; border: none; margin-right: 8px;"></div>
-                <span><b>Raff:</b> Adding drinks now!</span>
-            </div>
-            <div style="color: var(--turquoise); font-size: 0.75rem; margin-top: 8px; font-weight: bold;">Open Chat ></div>
-        </div>
     </div>
 
     <div class="footer">
-        <button class="btn-primary" id="initiate-btn">Continue to Crave Match <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i></button>
         <div class="home-indicator"></div>
     </div>
 </div>
