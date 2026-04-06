@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickaroo Shared Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="shared_order.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+<div class="phone-container">
+    <div class="status-bar">
+        <div class="time">9:41</div>
+        <div class="icons">
+            <i class="fa-solid fa-signal" style="font-size: 0.70rem;"></i>
+            <i class="fa-solid fa-wifi" style="font-size: 0.70rem; margin: 0 3px;"></i>
+            <i class="fa-solid fa-battery-full" style="font-size: 0.85rem;"></i>
+        </div>
+    </div>
+
+    <div class="header">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i></a>
+        <h1>Hub Ordering</h1>
+    </div>
+
+    <div class="scrollable-content">
+        <!-- Crave Match Feature intro -->
+        <div class="crave-match-card glass-card">
+            <div class="crave-header">
+                <i class="fa-solid fa-fire" style="color: var(--cerise); font-size: 1.2rem;"></i>
+                <h3>Crave Match active</h3>
+            </div>
+            <p>Sarah and 2 others are swiping on what to eat. We'll pick the perfect hub soon!</p>
+            <button class="btn-subtle" onclick="Swal.fire('Crave Match', 'Swipe left or right on cuisines to find the perfect group match!', 'info')">Join the Swipe</button>
+        </div>
+
+        <!-- Pickaroo Hubs Feature -->
+        <div class="hub-container glass-card">
+            <div class="hub-header">
+                <div>
+                    <span class="badge">Unified Hub Delivery</span>
+                    <h2>Uptown Mall Hub</h2>
+                    <p class="subtitle">1 Delivery Fee • 3 Restaurants</p>
+                </div>
+                <div class="fee-badge">₱49 Fee</div>
+            </div>
+
+            <!-- User's Cart -->
+            <div class="user-cart">
+                <h3>Your Items</h3>
+                <div id="self-order-list" class="empty-state">
+                    Tap below to add from Uptown Mall
+                </div>
+                <button id="add-more-btn" class="btn-dashed">
+                    <i class="fa-solid fa-plus"></i> Add from Hub
+                </button>
+            </div>
+
+            <!-- Friends' Carts -->
+            <div class="friends-cart">
+                <h3>Group Items</h3>
+                
+                <div class="order-item">
+                    <div class="avatar raff-avatar">R</div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <span class="name">Raff (Burger Joint)</span>
+                            <span class="price">₱210.00</span>
+                        </div>
+                        <div class="sub-item">
+                            <span>1x Medium Fries</span>
+                            <span>₱80.00</span>
+                        </div>
+                        <div class="sub-item">
+                            <span>1x Cheeseburger</span>
+                            <span>₱130.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-item">
+                    <div class="avatar maan-avatar">M</div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <span class="name">Maan (Pizza Corner)</span>
+                            <span class="price">₱350.00</span>
+                        </div>
+                        <div class="sub-item">
+                            <span>1x Family Pizza</span>
+                            <span>₱350.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ally Drop User Feature -->
+                <div class="order-item" style="border: 2px solid rgba(29, 225, 206, 0.4); background: linear-gradient(to right, rgba(255,255,255,0.8), rgba(29, 225, 206, 0.05));">
+                    <div class="avatar" style="background: #4A90E2;">J</div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <div style="display: flex; flex-direction: column;">
+                                <span class="name">Jhon (Tokyo Sushi)</span>
+                                <span style="font-size: 0.7rem; color: var(--turquoise); font-weight: 700; text-transform: uppercase; margin-top: 2px;"><i class="fa-solid fa-location-dot"></i> Ally Drop (300m away)</span>
+                            </div>
+                            <span class="price">₱220.00</span>
+                        </div>
+                        <div class="sub-item">
+                            <span>1x Spicy Tuna Roll</span>
+                            <span>₱220.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Price Card -->
+        <div class="total-card glass-card">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span>₱780.00</span>
+            </div>
+            <div class="total-row">
+                <span>Hub Delivery Fee <i class="fa-solid fa-circle-info gray-icon"></i></span>
+                <span>₱49.00</span>
+            </div>
+            <div class="total-row" style="color: var(--turquoise);">
+                <span>Ally Drop Fee (Jhon) <i class="fa-solid fa-handshake gray-icon"></i></span>
+                <span>+₱15.00</span>
+            </div>
+            <div class="total-row grand-total">
+                <span>Total</span>
+                <span id="total-price" style="color: var(--turquoise);">₱844.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer glass-footer">
+        <button id="lock-order-btn" class="btn-primary">Lock Group Order</button>
+        <div class="home-indicator"></div>
+    </div>
+</div>
+
+<script src="shared_order.js"></script>
+</body>
+</html>

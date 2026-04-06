@@ -1,0 +1,432 @@
+
+        :root {
+            /* Pickaroo Palette */
+            --turquoise: #1DE1CE;
+            --white: #FCFCFC;
+            --cerise: #E83683;
+            
+            /* Interface/Glass Colors */
+            --gray-text: #5f6368;
+            
+            /* Key Glassmorphism Setting: A translucent white background */
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            
+            /* Another Key Setting: A subtle, lighter translucent white for borders/elevation */
+            --glass-border: rgba(255, 255, 255, 0.2);
+
+            /* Text for on top of dark glass elements */
+            --dark-glass-text: #fff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #3c4043;
+            min-height: 100vh;
+            
+            /* 1. We MUST have a vibrant background for glass blur to be visible */
+            background: linear-gradient(135deg, var(--turquoise) 0%, #fff 40%, var(--cerise) 100%);
+            background-attachment: fixed;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 6px solid rgba(255, 255, 255, 0.8);
+            border-radius: 45px;
+            margin: 40px 0;
+            
+            /* 2. Primary Glass Layer: Semi-transparent white + Blur */
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px); /* The main blur effect */
+            -webkit-backdrop-filter: blur(16px); /* For Safari support */
+            
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2), inset 0 0 0 2px rgba(255,255,255,0.4);
+            
+            /* Add bottom padding so content doesn't get hidden behind absolute footer */
+            padding-bottom: 0px; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scrollable-content {
+            flex: 1;
+        }
+
+        /* Customize Scrollbar to look clean & modern */
+        .phone-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for a native mobile feel */
+        }
+        
+        .phone-container {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Mobile Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 25px 0 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1c1c1e;
+            z-index: 10;
+        }
+
+        .status-bar .icons {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        /* Header Area */
+        .header {
+            padding: 10px 20px 20px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--cerise);
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            margin: 0 0 0 15px;
+            font-weight: 700;
+        }
+
+        /* Banner Card */
+        .promo-card {
+            margin: 15px;
+            
+            /* 3. A localized glass panel. It has its own blur for depth. */
+            background: rgba(255, 255, 255, 0.15); /* More translucent than the container */
+            backdrop-filter: blur(5px); /* Double blur effect */
+            -webkit-backdrop-filter: blur(5px);
+            
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .promo-card h2 {
+            margin: 0;
+            color: var(--cerise);
+            font-size: 1.1rem;
+        }
+
+        .promo-card p {
+            font-size: 0.85rem;
+            color: var(--gray-text);
+            margin: 8px 0 15px 0;
+        }
+
+        /* Progress Tracker */
+        .hunt-progress {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding: 10px 0;
+            margin-top: 15px;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 25%;
+        }
+
+        .icon-circle {
+            width: 38px;
+            height: 38px;
+            
+            /* Inactive state has no background according to the design */
+            background: transparent;
+            border: none;
+            
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px auto;
+            color: var(--turquoise);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active .icon-circle {
+            background: var(--turquoise); /* Active step pops out */
+            color: white;
+            box-shadow: 0 4px 10px rgba(29, 225, 206, 0.3);
+        }
+
+        .progress-step span {
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: block;
+            color: #4a4a4a;
+        }
+
+        .progress-step span:last-child {
+            margin-top: 2px;
+            font-weight: 800;
+        }
+
+        /* Settings List */
+        .settings-list {
+            padding: 0 15px;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .setting-icon {
+            width: 40px;
+            height: 40px;
+            
+            /* Icon holders get a touch of glass too */
+            background: rgba(29, 225, 206, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--turquoise);
+        }
+
+        .setting-content {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .setting-label {
+            font-size: 0.75rem;
+            color: var(--gray-text);
+        }
+
+        .setting-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* Hunt Masters Section */
+        .hunt-masters {
+            padding: 20px 15px;
+        }
+
+        .hunt-masters h3 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .avatar-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #eee;
+            border: 2px solid var(--turquoise);
+            position: relative;
+        }
+
+        .avatar.add-btn {
+            
+            /* Glassy Add Button */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            
+            border: 2px dashed var(--turquoise);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--turquoise);
+            cursor: pointer;
+        }
+
+        /* Chat Snippet (Glass Version) */
+        .chat-box {
+            margin: 15px;
+            
+            /* 4. Chat is a distinct glass panel */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-header {
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--turquoise);
+        }
+
+        /* Sticky Footer Button */
+        .footer {
+            padding: 20px 15px 35px 15px; /* Extra bottom padding for home indicator */
+            position: sticky;
+            bottom: 0;
+            width: auto;
+            z-index: 100;
+            
+            /* Footer is slightly less transparent than the container */
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom-left-radius: 38px;
+            border-bottom-right-radius: 38px;
+            
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .home-indicator {
+            width: 140px;
+            height: 5px;
+            background-color: #1c1c1e;
+            border-radius: 100px;
+            position: absolute;
+            bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .btn-primary {
+            background-color: var(--turquoise);
+            color: white;
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(29, 225, 206, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(29, 225, 206, 0.2);
+        }
+
+/* --- SweetAlert2 Modern Flat UI Customizations --- */
+.modern-modal {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 8px rgba(0, 0, 0, 0.04) !important;
+    border: none !important;
+    font-family: 'Inter', sans-serif !important;
+    padding: 24px 20px 20px 20px !important;
+    width: 320px !important;
+}
+
+.modern-modal .swal2-title {
+    color: #111827 !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    padding: 0 !important;
+    margin: 16px 0 8px 0 !important;
+}
+
+.modern-modal .swal2-html-container {
+    font-size: 0.875rem !important;
+    color: #6b7280 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.5 !important;
+}
+
+.modern-modal .swal2-actions {
+    width: 100% !important;
+    margin-top: 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+}
+
+.modern-modal .swal2-styled {
+    margin: 0 !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    letter-spacing: 0.3px !important;
+    padding: 10px 16px !important;
+    box-shadow: none !important;
+    flex: 1 !important;
+}
+
+.modern-modal .swal2-confirm.swal2-styled {
+    background-color: #2563eb !important; /* vibrant blue */
+    color: #ffffff !important;
+}
+
+.modern-modal .swal2-cancel.swal2-styled {
+    background-color: #e5e7eb !important; /* light gray */
+    color: #374151 !important;
+}
+
+.progress-line {
+    position: absolute;
+    top: 19px;
+    left: 12.5%;
+    width: 75%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.05);
+    z-index: 1;
+    border-radius: 2px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 30%;
+    background: var(--turquoise);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.modern-input {
+  background: #f9fafb !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 6px !important;
+  color: #111827 !important;
+  font-size: 0.875rem !important;
+  padding: 10px 14px !important;
+  box-shadow: none !important;
+}
+
+.swal2-toast-glass {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    font-family: 'Inter', sans-serif !important;
+    color: #3c4043 !important;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickaroo Crave Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="crave_match.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+<div class="phone-container">
+    <div class="status-bar">
+        <div class="time">9:42</div>
+        <div class="icons">
+            <i class="fa-solid fa-signal" style="font-size: 0.70rem;"></i>
+            <i class="fa-solid fa-wifi" style="font-size: 0.70rem; margin: 0 3px;"></i>
+            <i class="fa-solid fa-battery-full" style="font-size: 0.85rem;"></i>
+        </div>
+    </div>
+
+    <div class="header">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i></a>
+        <h1>Crave Match <i class="fa-solid fa-fire" style="color: var(--cerise); font-size: 1rem;"></i></h1>
+        <div class="hunters-joined">3/5 Swiping</div>
+    </div>
+
+    <div class="scrollable-content swipe-view">
+        <div class="instruction-text">Swipe right for what you're craving!</div>
+        
+        <div class="card-container" id="card-container">
+            <!-- Cards will be injected by JS -->
+        </div>
+
+        <div class="action-controls">
+            <button class="control-btn no-btn" id="btn-no">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button class="control-btn heart-btn" id="btn-yes">
+                <i class="fa-solid fa-heart"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="footer glass-footer">
+        <div class="home-indicator"></div>
+    </div>
+</div>
+
+<script src="crave_match.js"></script>
+</body>
+</html>
