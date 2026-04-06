@@ -86,7 +86,7 @@ body {
     flex: 1;
 }
 
-.header .fire-icon { color: var(--cerise); font-size: 1rem; margin-left: 4px; }
+.header .fire-icon { color: var(--turquoise); font-size: 1rem; margin-left: 4px; }
 
 .back-link {
     color: var(--text-primary);
@@ -164,7 +164,7 @@ body {
 }
 
 .progress-dot.active {
-    background: var(--cerise);
+    background: var(--turquoise);
     width: 20px;
     border-radius: 4px;
 }
@@ -174,7 +174,7 @@ body {
 }
 
 .progress-dot.craved {
-    background: var(--cerise);
+    background: var(--turquoise);
 }
 
 .progress-dot.noped {
@@ -386,9 +386,9 @@ body {
 }
 
 .crave-btn {
-    background: linear-gradient(135deg, var(--cerise), #c4276e);
+    background: linear-gradient(135deg, var(--turquoise), #0fa294);
     color: white;
-    box-shadow: 0 6px 20px rgba(232, 54, 131, 0.3);
+    box-shadow: 0 6px 20px rgba(29, 225, 206, 0.35);
     width: 72px;
     height: 72px;
     font-size: 1.8rem;
@@ -560,4 +560,9 @@ body {
 .modern-modal .swal2-confirm.swal2-styled {
     background: var(--turquoise) !important;
     color: white !important;
+}
+
+.modern-modal .swal2-cancel.swal2-styled {
+    background: #f0f0eb !important;
+    color: var(--text-primary) !important;
 }

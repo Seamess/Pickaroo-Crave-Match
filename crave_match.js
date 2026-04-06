@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div style="background: #FAF8F5; border-radius: 16px; padding: 14px; text-align: left; margin-bottom: 16px;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <div>
-                                    <span style="font-size: 0.65rem; font-weight: 700; color: #E83683; text-transform: uppercase; letter-spacing: 0.5px;">🏆 Top Match (${Math.max(3, matchVotes)} Votes)</span>
+                                    <span style="font-size: 0.65rem; font-weight: 700; color: #1DE1CE; text-transform: uppercase; letter-spacing: 0.5px;">🏆 Top Match (${Math.max(3, matchVotes)} Votes)</span>
                                     <div style="font-weight: 700; color: #1A1A2E; margin-top: 3px; font-size: 1rem; font-family: 'Outfit', sans-serif;">${matchIcon} ${matchName}</div>
                                 </div>
                             </div>
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
 
-        const colors = ['#E83683', '#1DE1CE', '#FFB347', '#66BB6A', '#ff6b6b', '#B388FF'];
+        const colors = ['#1DE1CE', '#0fa294', '#FFB347', '#66BB6A', '#4A90E2', '#B388FF'];
         const particles = [];
 
         for (let i = 0; i < 60; i++) {

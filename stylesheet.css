@@ -11,6 +11,11 @@
     --cerise: #E83683;
     --cerise-soft: rgba(232, 54, 131, 0.10);
 
+    /* Primary Accent (Pickaroo Brand) */
+    --accent: #1DE1CE;
+    --accent-deep: #0fa294;
+    --accent-soft: rgba(29, 225, 206, 0.12);
+
     /* Warm Accents */
     --honey: #FFB347;
     --honey-soft: rgba(255, 179, 71, 0.12);
@@ -121,7 +126,7 @@ body {
 }
 
 .header .fire-icon {
-    color: var(--cerise);
+    color: var(--turquoise);
     font-size: 1rem;
     margin-left: 4px;
 }
@@ -341,6 +346,7 @@ body {
     position: relative;
     margin-left: -8px;
     transition: transform var(--dur-fast) var(--ease-bounce);
+    object-fit: cover;
 }
 
 .avatar:first-child { margin-left: 0; }
@@ -350,8 +356,8 @@ body {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: var(--cerise-soft);
-    color: var(--cerise);
+    background: var(--accent-soft);
+    color: var(--accent-deep);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -389,7 +395,7 @@ body {
 }
 
 .btn-primary {
-    background: var(--cerise);
+    background: var(--turquoise);
     color: white;
     width: 100%;
     border: none;
@@ -399,7 +405,7 @@ body {
     font-size: 1.05rem;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(232, 54, 131, 0.25);
+    box-shadow: 0 8px 24px rgba(29, 225, 206, 0.30);
     transition: transform var(--dur-fast) var(--ease-smooth), box-shadow var(--dur-fast);
     position: relative;
     overflow: hidden;
@@ -415,7 +421,7 @@ body {
 
 .btn-primary:active {
     transform: scale(0.97);
-    box-shadow: 0 4px 12px rgba(232, 54, 131, 0.2);
+    box-shadow: 0 4px 12px rgba(29, 225, 206, 0.25);
 }
 
 .btn-primary.pulse {
@@ -423,8 +429,8 @@ body {
 }
 
 @keyframes cta-pulse {
-    0%, 100% { box-shadow: 0 8px 24px rgba(232, 54, 131, 0.25); }
-    50% { box-shadow: 0 8px 36px rgba(232, 54, 131, 0.4); }
+    0%, 100% { box-shadow: 0 8px 24px rgba(29, 225, 206, 0.30); }
+    50% { box-shadow: 0 8px 36px rgba(29, 225, 206, 0.50); }
 }
 
 .skip-link {
@@ -507,7 +513,7 @@ body {
 }
 
 .modern-modal .swal2-confirm.swal2-styled {
-    background: var(--cerise) !important;
+    background: var(--turquoise) !important;
     color: white !important;
 }
 

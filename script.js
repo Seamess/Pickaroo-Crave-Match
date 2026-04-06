@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
             shareBtn.innerHTML = '<i class="fa-solid fa-plus"></i>';
 
             if (huntersCount < 12) {
-                const newAvatar = document.createElement('div');
+                const newAvatar = document.createElement('img');
                 newAvatar.className = 'avatar';
-                const randomColor = pastelColors[Math.floor(Math.random() * pastelColors.length)];
-                newAvatar.style.background = randomColor;
+                newAvatar.src = 'images/avatar_default.png';
+                newAvatar.alt = 'Hunter';
                 newAvatar.style.transform = 'scale(0)';
                 newAvatar.style.transition = `transform 0.4s ${getComputedStyle(document.documentElement).getPropertyValue('--ease-bounce')}`;
                 

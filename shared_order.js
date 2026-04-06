@@ -100,12 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function showMenuPicker(restaurant) {
         const menuHTML = restaurant.items.map((item, idx) => `
             <div class="restaurant-option" data-idx="${idx}" style="cursor: pointer;">
-                <div class="r-icon" style="background: var(--cerise-soft); font-size: 0.9rem;">${restaurant.icon}</div>
+                <div class="r-icon" style="background: var(--turquoise-soft); font-size: 0.9rem;">${restaurant.icon}</div>
                 <div style="flex: 1;">
                     <div class="r-name">${item.name}</div>
                     <div class="r-desc">${restaurant.name}</div>
                 </div>
-                <div style="font-weight: 700; color: var(--cerise); font-size: 0.9rem;">₱${item.price}.00</div>
+                <div style="font-weight: 700; color: var(--turquoise); font-size: 0.9rem;">₱${item.price}.00</div>
             </div>
         `).join('');
 
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="flex: 1;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                     <span style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary);">${item.name}</span>
-                    <span style="font-weight: 700; color: var(--cerise); font-size: 0.85rem;">₱${item.price}.00</span>
+                    <span style="font-weight: 700; color: var(--turquoise); font-size: 0.85rem;">₱${item.price}.00</span>
                 </div>
                 <div style="font-size: 0.72rem; color: var(--text-secondary);">${restaurant.name}</div>
             </div>
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             checkoutBtn.textContent = 'Order Locked! 🚀';
-            checkoutBtn.style.background = 'var(--cerise)';
+            checkoutBtn.style.background = 'var(--turquoise)';
             checkoutBtn.style.opacity = '1';
 
             Swal.fire({
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                                 <span style="color: #6B7280;">Your Share</span>
-                                <span style="font-weight: 700; color: #E83683;">${yourShareEl.textContent}</span>
+                                <span style="font-weight: 700; color: #1DE1CE;">${yourShareEl.textContent}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
                                 <span style="color: #6B7280;">Ally Drop</span>
