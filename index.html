@@ -12,6 +12,13 @@
 </head>
 <body>
 
+<!-- Prototype Nav -->
+<div style="position: fixed; top: 20px; right: 20px; background: white; padding: 10px 15px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 9999; display: flex; gap: 10px; font-family: 'Inter', sans-serif; align-items: center; font-size: 14px;">
+    <strong>Mode:</strong>
+    <a href="index.html" style="background: var(--turquoise); color: white; padding: 5px 12px; border-radius: 12px; text-decoration: none; font-weight: 600;">Group Hunt</a>
+    <a href="single_crave_match.html" style="color: var(--text-secondary); padding: 5px 12px; border-radius: 12px; text-decoration: none; font-weight: 500;">Single User</a>
+</div>
+
 <div class="phone-container">
     <div class="status-bar">
         <div class="time">9:41</div>
@@ -28,9 +35,8 @@
     </div>
 
     <div class="scrollable-content">
-
         <!-- Live Activity Feed -->
-        <div class="activity-feed slide-up" style="animation-delay: 0.1s;">
+        <div class="activity-feed slide-up" style="animation-delay: 0.1s; overflow-y: hidden; max-height: 100px;">
             <div class="activity-feed-header">
                 <span class="pulse-dot"></span> Live Activity
             </div>
