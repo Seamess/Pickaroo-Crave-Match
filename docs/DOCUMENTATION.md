@@ -1,7 +1,7 @@
-# Pickaroo Crave Match v2 — Technical Documentation
+# Pickaroo Crave Match v3 — Technical Documentation
 
-> **Document Version:** 2.0  
-> **Date:** April 6, 2026  
+> **Document Version:** 3.0  
+> **Date:** April 27, 2026  
 > **Author:** Pickaroo Engineering  
 > **Status:** Prototype — Browser-based static demo
 
@@ -12,12 +12,18 @@
 1. [Executive Summary](#1-executive-summary)
 2. [System Overview](#2-system-overview)
 3. [Capabilities Matrix](#3-capabilities-matrix)
+   - 3.1 [Screen 1 — Lobby (Group)](#31-screen-1--lobby)
+   - 3.2 [Screen 2 — Crave Match (Group Swipe)](#32-screen-2--crave-match-swipe)
+   - 3.3 [Screen 3 — Hub Ordering (Group)](#33-screen-3--hub-ordering)
+   - 3.4 [Screen 2S — Single User Crave Match](#34-screen-2s--single-user-crave-match)
+   - 3.5 [Screen 3S — Single User Ordering](#35-screen-3s--single-user-ordering)
 4. [System Diagrams](#4-system-diagrams)
    - 4.1 [Context Diagram](#41-context-diagram)
    - 4.2 [Data Flow Diagram (DFD) — Level 0](#42-data-flow-diagram-dfd--level-0)
    - 4.3 [Data Flow Diagram (DFD) — Level 1](#43-data-flow-diagram-dfd--level-1)
-   - 4.4 [System Flow Diagram (SFD)](#44-system-flow-diagram-sfd)
-   - 4.5 [HIPO Chart](#45-hipo-chart-hierarchy-plus-inputprocessoutput)
+   - 4.4 [System Flow Diagram (SFD) — Group](#44-system-flow-diagram-sfd--group)
+   - 4.5 [System Flow Diagram (SFD) — Single User](#45-system-flow-diagram-sfd--single-user)
+   - 4.6 [HIPO Chart](#46-hipo-chart-hierarchy-plus-inputprocessoutput)
 5. [Screen-by-Screen Specification](#5-screen-by-screen-specification)
 6. [Data Dictionary](#6-data-dictionary)
 7. [Business Rules Engine](#7-business-rules-engine)
@@ -29,7 +35,10 @@
 
 ## 1. Executive Summary
 
-**Pickaroo Crave Match** is a gamified group food ordering module that solves the "what should we eat?" problem for friend groups, families, and office teams. It uses a Tinder-like swipe mechanic to aggregate food preferences across a group, determines a consensus match, and routes all orders through a **Unified Hub Delivery** system — one rider, one fee, multiple restaurants.
+**Pickaroo Crave Match** is a gamified food ordering module that solves the "what should we eat?" problem. It operates in **two modes**:
+
+1. **Group Mode** — For friend groups, families, and office teams. Uses a Tinder-like swipe mechanic to aggregate food preferences across a group, determines a consensus match, and routes all orders through a **Unified Hub Delivery** system — one rider, one fee, multiple restaurants.
+2. **Single User Mode** — For solo users who want the same fun swipe-to-discover experience. Starts with a mood-based food deck, supports Super Crave (swipe up), and ends with a personal ordering flow — no group coordination needed.
 
 ### Value Proposition
 
@@ -53,7 +62,9 @@
 
 ## 2. System Overview
 
-Crave Match operates as a **3-screen progressive flow** within the Pickaroo mobile app:
+Crave Match operates in **two modes** within the Pickaroo mobile app:
+
+#### Group Mode — 3-screen progressive flow
 
 ```mermaid
 flowchart LR
@@ -66,6 +77,22 @@ flowchart LR
     style C fill:#FAF8F5,stroke:#1DE1CE,stroke-width:2px,color:#1A1A2E
     style D fill:#1DE1CE,stroke:#0fa294,stroke-width:2px,color:#fff
 ```
+
+#### Single User Mode — 3-screen solo flow
+
+```mermaid
+flowchart LR
+    E["Screen 2S\nMood Select"] -->|Pick Vibe| F["Screen 2S\nSolo Swipe"]
+    F -->|Personal Pick| G["Screen 3S\nSolo Order"]
+    G -->|Place Order| H["Rider Dispatch"]
+    
+    style E fill:#FAF8F5,stroke:#FFB347,stroke-width:2px,color:#1A1A2E
+    style F fill:#FAF8F5,stroke:#E83683,stroke-width:2px,color:#1A1A2E
+    style G fill:#FAF8F5,stroke:#1DE1CE,stroke-width:2px,color:#1A1A2E
+    style H fill:#1DE1CE,stroke:#0fa294,stroke-width:2px,color:#fff
+```
+
+> **Key Difference:** Single User Mode replaces the lobby with a mood selector ("What's your vibe?") that curates emotion-based food decks, adds a Super Crave gesture (swipe up), and skips group coordination entirely.
 
 ### Technology Stack (Prototype)
 
@@ -126,6 +153,31 @@ flowchart LR
 | **Stack Discount Engine** | Auto-applies 5% discount when basket ≥ ₱500. Displayed as line item in totals. | ✅ Implemented |
 | **Checkout Flow** | Loading state → confirmation modal with payment method, your share, Ally Drop summary, and ETA. | ✅ Implemented |
 | **Live Feed** | Same auto-scrolling ticker as lobby, contextualized for ordering ("Raff confirmed payment via GCash"). | ✅ Implemented |
+
+### 3.4 Screen 2S — Single User Crave Match
+
+| Capability | Description | Status |
+|---|---|---|
+| **Mood Selector ("What's your vibe?")** | 4 mood buttons (Comfort, Stressed & Starving, Treat Myself, Keep it Light) each curating a 5-card emotion-tailored deck. | ✅ Implemented |
+| **Emotion-Based Food Decks** | 4 decks × 5 cards each (20 total), curated by mood. Comfort = Pizza, Fried Chicken, Mac & Cheese, Desserts, Ramen. Stress = Burgers, K-BBQ, Tacos, Wings, Boba. Happy = Sushi, Steak, Dim Sum, Desserts, Cocktails. Light = Poke, Açaí, Smoothies, Salads, Pho. | ✅ Implemented |
+| **Super Crave Gesture** | Swipe up to trigger "Super Crave" — instantly ends swiping and crowns that food as the winner. Star (★) button alternative. | ✅ Implemented |
+| **SUPER / CRAVE / NOPE Stamps** | 3 stamp types: SUPER (gold, swipe up), CRAVE (turquoise, swipe right), NOPE (red, swipe left). | ✅ Implemented |
+| **Sudden Death Tiebreaker** | When multiple foods are craved with no Super Crave, sorts by "time spent admiring" and presents a tap-to-pick modal. | ✅ Implemented |
+| **Time Tracking per Card** | Records milliseconds spent on each card for the tiebreaker algorithm. Displays "Admired for: X.Xs" in sudden death. | ✅ Implemented |
+| **Session Handoff** | Stores winning food + runner-ups + mood in `sessionStorage` for the solo ordering page. | ✅ Implemented |
+| **No Group Elements** | Hides swipers badge, mini activity ticker, discount strip, and members strip via CSS overrides. | ✅ Implemented |
+
+### 3.5 Screen 3S — Single User Ordering
+
+| Capability | Description | Status |
+|---|---|---|
+| **Match Badge (Solo)** | Displays the personal crave match result with icon, name, and runner-ups. Reads from `sessionStorage`. | ✅ Implemented |
+| **Restaurant Picker** | Same 2-step hub picker as group mode: 4 restaurants × 3 items. | ✅ Implemented |
+| **Personal Cart** | Dynamic cart with empty state → item list. Same add-from-hub flow. | ✅ Implemented |
+| **Simplified Totals** | Subtotal + ₱49 delivery fee + optional stack discount (5% at ₱500+). No Ally Drop, no split. | ✅ Implemented |
+| **Payment Methods** | Same 5-method horizontal picker: GCash, Maya, Card, COD, QR Ph. | ✅ Implemented |
+| **Solo Checkout** | "Place My Order" CTA → loading → confirmation modal with crave match info, payment, total, item count, and ETA (20-30 min). | ✅ Implemented |
+| **No Group Elements** | No live feed, no group items, no split payment, no Ally Drop. Clean solo experience. | ✅ Implemented |
 
 ---
 
@@ -283,9 +335,9 @@ flowchart TB
 
 ---
 
-### 4.4 System Flow Diagram (SFD)
+### 4.4 System Flow Diagram (SFD) — Group
 
-The SFD shows the complete user journey from start to finish, including decision points and error handling.
+The SFD shows the complete Group Mode user journey from start to finish, including decision points and error handling.
 
 ```mermaid
 flowchart TD
@@ -351,17 +403,91 @@ flowchart TD
 
 ---
 
-### 4.5 HIPO Chart (Hierarchy Plus Input/Process/Output)
+### 4.5 System Flow Diagram (SFD) — Single User
 
-#### 4.5.1 Module Hierarchy
+The Single User SFD shows the solo journey: mood selection → emotion-based swiping → personal ordering.
+
+```mermaid
+flowchart TD
+    START2(["\ud83d\udfe2 Start"]) --> MOOD["Display Mood Selector\n'What's your vibe?'"]
+    
+    MOOD --> M1["Need Comfort \ud83e\udd7a"]
+    MOOD --> M2["Stressed & Starving \ud83d\udd25"]
+    MOOD --> M3["Treat Myself \u2728"]
+    MOOD --> M4["Keep it Light \ud83c\udf31"]
+    
+    M1 --> LOAD["Load Emotion Deck\n(5 cards)"]
+    M2 --> LOAD
+    M3 --> LOAD
+    M4 --> LOAD
+    
+    LOAD --> SWIPE2["Display Swipe Screen\n(Solo mode)"]
+    
+    SWIPE2 --> ACTION2{"User Action?"}
+    ACTION2 -- "Swipe right / Tap \ud83d\udd25" --> CRAVE2["Record: CRAVE"]
+    ACTION2 -- "Swipe left / Tap \u274c" --> NOPE2["Record: NOPE"]
+    ACTION2 -- "Swipe up / Tap \u2b50" --> SUPER["Record: SUPER CRAVE\n(Instant winner)"]
+    ACTION2 -- "Tap \ud83d\udd00" --> REFRESH2["Shuffle same deck\nReset progress"]
+    
+    REFRESH2 --> SWIPE2
+    SUPER --> MATCH2["Crown winner\nFire confetti \ud83c\udf8a"]
+    CRAVE2 --> REM2{"Cards\nremaining?"}
+    NOPE2 --> REM2
+    
+    REM2 -- Yes --> SWIPE2
+    REM2 -- No --> CHECK_CRAVED{"Any foods\ncraved?"}
+    
+    CHECK_CRAVED -- No --> NO_CRAVE["\u2139\ufe0f 'No Cravings?'\nRefresh deck"]
+    NO_CRAVE --> SWIPE2
+    CHECK_CRAVED -- "1 craved" --> MATCH2
+    CHECK_CRAVED -- "2+ craved" --> TIE["Sudden Death! \u2694\ufe0f\nTap to pick winner"]
+    TIE --> MATCH2
+    
+    MATCH2 --> SHOW2["Your Personal Pick!\n(Winner + runner-ups)"]
+    SHOW2 --> ORDER2["Display Solo Order Screen"]
+    
+    ORDER2 --> ADD2{"Add items?"}
+    ADD2 -- Yes --> PICK2["Restaurant Picker"]
+    PICK2 --> ITEM2["Select Menu Item"]
+    ITEM2 --> CART2["Add to cart\nRecalculate totals"]
+    CART2 --> DISC2{"Basket \u2265 \u20b1500?"}
+    DISC2 -- Yes --> APPLY2["Apply 5% discount"]
+    DISC2 -- No --> ORDER2
+    APPLY2 --> ORDER2
+    
+    ADD2 -- No --> PAY2["Select payment method"]
+    PAY2 --> CHECKOUT2{"Place My\nOrder?"}
+    CHECKOUT2 -- No --> ORDER2
+    CHECKOUT2 -- "Empty cart" --> ERR2["\u26a0\ufe0f Add items first!"]
+    ERR2 --> ORDER2
+    CHECKOUT2 -- "Has items" --> PROCESS2["Placing Order..."]
+    PROCESS2 --> CONFIRM2["\ud83c\udf89 Order Placed!\nConfirmation modal"]
+    CONFIRM2 --> TRACK2["Track Order \u2192"]
+    TRACK2 --> DONE2(["\ud83d\udd34 End"])
+
+    style START2 fill:#66BB6A,stroke:#43A047,color:#fff
+    style DONE2 fill:#E83683,stroke:#c4276e,color:#fff
+    style MATCH2 fill:#1DE1CE,stroke:#0fa294,color:#1A1A2E
+    style CONFIRM2 fill:#1DE1CE,stroke:#0fa294,color:#1A1A2E
+    style SUPER fill:#FFB347,stroke:#D4920A,color:#1A1A2E
+    style TIE fill:#FFB347,stroke:#D4920A,color:#1A1A2E
+```
+
+---
+
+### 4.6 HIPO Chart (Hierarchy Plus Input/Process/Output)
+
+#### 4.6.1 Module Hierarchy
 
 ```mermaid
 graph TD
     ROOT["Crave Match System\n(Root Module)"]
     
     ROOT --> M1["1.0 Lobby Module\n(script.js)"]
-    ROOT --> M2["2.0 Swipe Module\n(crave_match.js)"]
-    ROOT --> M3["3.0 Order Module\n(shared_order.js)"]
+    ROOT --> M2["2.0 Group Swipe Module\n(crave_match.js)"]
+    ROOT --> M3["3.0 Group Order Module\n(shared_order.js)"]
+    ROOT --> M4["4.0 Solo Swipe Module\n(single_crave_match.js)"]
+    ROOT --> M5["5.0 Solo Order Module\n(single_order.js)"]
     
     M1 --> M1A["1.1 Live Activity Feed"]
     M1 --> M1B["1.2 Invite / Share"]
@@ -381,10 +507,25 @@ graph TD
     M3 --> M3D["3.4 Payment Selector"]
     M3 --> M3E["3.5 Checkout Processor"]
 
+    M4 --> M4A["4.1 Mood Selector"]
+    M4 --> M4B["4.2 Emotion Deck Loader"]
+    M4 --> M4C["4.3 Super Crave Engine"]
+    M4 --> M4D["4.4 Time Tracker"]
+    M4 --> M4E["4.5 Tiebreaker / Match"]
+    M4 --> M4F["4.6 Session Handoff"]
+
+    M5 --> M5A["5.1 Match Badge Loader"]
+    M5 --> M5B["5.2 Restaurant Picker"]
+    M5 --> M5C["5.3 Cart Manager"]
+    M5 --> M5D["5.4 Payment Selector"]
+    M5 --> M5E["5.5 Solo Checkout"]
+
     style ROOT fill:#E83683,stroke:#c4276e,color:#fff,stroke-width:2px
     style M1 fill:#FFB347,stroke:#D4920A,color:#1A1A2E,stroke-width:2px
     style M2 fill:#1DE1CE,stroke:#0fa294,color:#1A1A2E,stroke-width:2px
     style M3 fill:#B388FF,stroke:#7C4DFF,color:#1A1A2E,stroke-width:2px
+    style M4 fill:#FFB347,stroke:#D4920A,color:#1A1A2E,stroke-width:2px
+    style M5 fill:#66BB6A,stroke:#43A047,color:#fff,stroke-width:2px
 ```
 
 #### 4.5.2 IPO Detail — Per Module
@@ -427,6 +568,31 @@ graph TD
 | **3.3 Split Calculator** | `splitMode` ('even'/'item'/'custom'), `total` number | `updateSplitAmounts()` — **Even**: total ÷ 4 for all members. **By Item**: each member's own items + (hubDeliveryFee + allyDropFee) ÷ 4. **Custom**: no-op (placeholder). Updates all `.split-amount` elements. | Per-person share amounts displayed in split rows |
 | **3.4 Payment Selector** | Click event on `.method-card` elements | Event delegation on `#payment-methods` — removes `.selected` from all, adds to clicked card, updates `selectedPayment` variable, applies scale(0.93) micro-animation. | Visual selection state, stored payment method string |
 | **3.5 Checkout Processor** | Click on `#lock-order-btn`, `cartItems[]`, `selectedPayment`, `yourShareEl.textContent` | 1. Guard: if cart empty, show warning modal. 2. Set button to "Routing Riders..." with opacity 0.7. 3. After 1500ms: set to "Order Locked! 🚀", change bg to cerise. 4. Show SweetAlert with payment method, your share, Ally Drop info, and ETA (25-35 min). 5. After 3000ms: reset button. | Loading state, confirmation modal, button state cycle |
+
+---
+
+**Module 4.0 — Solo Swipe (single_crave_match.js)**
+
+| Sub-Module | Input | Process | Output |
+|---|---|---|---|
+| **4.1 Mood Selector** | Click event on mood button | `selectMood(mood)` — sets `currentMood`, copies emotion deck to `foodCards[]`, resets state, fades out emotion screen, shows swipe view + progress dots. | Food deck loaded, UI transition to swipe screen |
+| **4.2 Emotion Deck Loader** | `currentMood` string ('comfort'/'stress'/'happy'/'light') | Indexes into `emotionDecks` object (4 decks × 5 cards). Each card has: id, name, subtitle, icon, image, category. | 5-card deck ready for swiping |
+| **4.3 Super Crave Engine** | Swipe up gesture (Δy < −80px, |Δy| > |Δx|) or ★ button click | Sets `isSuperCrave = true` on food, pushes to `craved[]`, applies `card-swipe-up` class, immediately calls `showMatchResult()`. | Instant match winner, bypasses remaining cards |
+| **4.4 Time Tracker** | `Date.now()` on card load and swipe | `cardStartTime` set on each new card. On swipe, `food.timeSpent = Date.now() - cardStartTime`. Used in tiebreaker. | Millisecond time-on-card per food item |
+| **4.5 Tiebreaker / Match** | `craved[]` array | `showMatchResult()` — Priority: 1. Super Crave (instant), 2. Single craved (auto-win), 3. Multiple craved → Sudden Death (sort by timeSpent desc, present as tappable buttons). `resolveTiebreaker(foodId)` handles user selection. | Winner crowned via `finishMatch()`, modal displayed |
+| **4.6 Session Handoff** | Winning food object, runner-ups, mood | `finishMatch()` calls `sessionStorage.setItem('singleMatchData', JSON.stringify({...}))` storing winner, runnerUps, mood, isSuper. On "Browse Restaurants" → navigates to `single_order.html`. | Data persisted in sessionStorage, page redirect |
+
+---
+
+**Module 5.0 — Solo Order (single_order.js)**
+
+| Sub-Module | Input | Process | Output |
+|---|---|---|---|
+| **5.1 Match Badge Loader** | `sessionStorage.getItem('singleMatchData')` | Parses JSON, populates `#solo-match-icon`, `#solo-match-title`, `#solo-match-sub` with winner icon, name, and runner-up names. | Match badge displays personal crave result |
+| **5.2 Restaurant Picker** | Click on `#solo-add-btn`, same `restaurants[]` as group mode | Identical 2-step SweetAlert flow: restaurant list → menu items. On item click, calls `addItemToCart()`. | 2-step picker modal → item added to cart |
+| **5.3 Cart Manager** | `item` + `restaurant` from picker | `addItemToCart()` — clears empty state, pushes to `cartItems[]`, adds to `mySubtotal`, creates DOM element, calls `recalculateTotals()`, shows success toast. | Cart items in DOM, updated subtotal |
+| **5.4 Payment Selector** | Click on `.method-card` in `#solo-payment-methods` | Event delegation — toggles `.selected` class, updates `selectedPayment` string, scale micro-animation. | Visual selection + stored payment method |
+| **5.5 Solo Checkout** | Click `#solo-checkout-btn`, `cartItems[]`, `selectedPayment` | 1. Guard: empty cart → warning. 2. Button to "Placing Order..." + opacity 0.7. 3. After 1500ms: "Order Placed! 🚀". 4. SweetAlert confirmation with crave match info, payment method, total, item count, ETA (20-30 min). 5. After 3000ms: reset button. | Loading → confirmation modal → button reset |
 
 ---
 
@@ -487,6 +653,38 @@ graph TD
 | **Totals** | Subtotal + delivery + Ally Drop + discount + total | Stack discount auto-shows at ₱500+; total in cerise Outfit font |
 | **Lock Order CTA** | Turquoise full-width button | Guards empty cart; shows loading + confirmation modal |
 
+### 5.4 Screen 2S — Single User Crave Match
+
+| Element | Component | Behavior |
+|---|---|---|
+| **Status Bar** | Time + signal/wifi/battery icons | Static display |
+| **Header** | Back button + "Crave Match 🔥" title (centered) | Swipers badge hidden; title centered |
+| **Mood Selector** | 4 mood buttons with emoji, title, examples | "What's your vibe?" → each loads emotion-curated deck. Fades out on selection |
+| **Progress Dots** | 5 dots (1 per card) | Hidden initially; shown after mood selection. Same color coding as group |
+| **Card Stack** | Max 3 visible, 5 in DOM | Same photo-first stack as group mode. Includes SUPER stamp (gold, centered) |
+| **SUPER Stamp** | "SUPER" text, gold border | Appears on upward drag (60px threshold); centered on card |
+| **CRAVE / NOPE Stamps** | Same as group mode | Left/right drag stamps |
+| **NOPE Button** | White circle, red ❌ | Same shake animation |
+| **Super Crave Button** | White circle, gold ★ | New button between NOPE and CRAVE. Triggers upward swipe animation |
+| **CRAVE Button** | Turquoise gradient circle, white 🔥 | Same flame dance animation |
+| **Refresh Button** | White circle, honey 🔀 | Shuffles current mood deck (not cycle) |
+| **Sudden Death Modal** | Tappable food buttons sorted by admire time | Shows when 2+ foods craved with no Super Crave. Displays "Admired for: X.Xs" |
+| **Personal Pick Modal** | Winner card + runner-ups + "Browse Restaurants" CTA | Navigates to `single_order.html` on confirm |
+
+### 5.5 Screen 3S — Solo Ordering
+
+| Element | Component | Behavior |
+|---|---|---|
+| **Status Bar** | Time + signal/wifi/battery icons | Static display |
+| **Header** | Back button + "Your Order" title | Back → `single_crave_match.html` |
+| **Match Badge** | Winner icon + "[Name] matched!" + runner-up text | Reads from `sessionStorage`; shows "Your top crave!" if no data |
+| **Hub Header** | "Hub Delivery" badge + "Uptown Mall Hub" + ₱49 fee | Simplified: "1 Delivery Fee • Your Pick" (no group restaurant count) |
+| **Your Items** | Empty state → cart items | Same as group mode cart |
+| **Add from Hub** | Dashed turquoise button | Same 2-step restaurant picker |
+| **Payment Methods** | Horizontal scroll of 5 cards | GCash, Maya, Card, COD, QR Ph; same selection mechanics |
+| **Totals** | Subtotal + ₱49 delivery + discount + total | No Ally Drop fee, no split. Discount auto-shows at ₱500+ |
+| **Place My Order CTA** | Turquoise full-width button | Guards empty cart; loading → confirmation with crave match info + ETA (20-30 min) |
+
 ---
 
 ## 6. Data Dictionary
@@ -542,16 +740,45 @@ graph TD
 | Variable | Type | Scope | Description |
 |---|---|---|---|
 | `huntersCount` | `number` | Lobby | Current member count (init: 3, max: 12) |
-| `currentDeckIndex` | `number` | Swipe | Active deck (0, 1, or 2) |
-| `foodCards` | `array` | Swipe | Current deck's 8 food items |
-| `currentIndex` | `number` | Swipe | Index of top card (0–7) |
-| `craved` | `array` | Swipe | Food items swiped right |
-| `noped` | `array` | Swipe | Food items swiped left |
-| `cartItems` | `array` | Order | User's personal cart items |
-| `mySubtotal` | `number` | Order | Sum of user's cart items (₱) |
-| `groupItemsTotal` | `number` | Order | Sum of group members' items (₱780 fixed in prototype) |
-| `selectedPayment` | `string` | Order | Active payment method key |
-| `splitMode` | `string` | Order | Active split mode ('even', 'item', 'custom') |
+| `currentDeckIndex` | `number` | Group Swipe | Active deck (0, 1, or 2) |
+| `foodCards` | `array` | Swipe (Both) | Current deck's food items (8 for group, 5 for solo) |
+| `currentIndex` | `number` | Swipe (Both) | Index of top card |
+| `craved` | `array` | Swipe (Both) | Food items swiped right |
+| `noped` | `array` | Swipe (Both) | Food items swiped left |
+| `currentMood` | `string` | Solo Swipe | Selected mood ('comfort'/'stress'/'happy'/'light') |
+| `cardStartTime` | `number` | Solo Swipe | `Date.now()` when current card was shown (for tiebreaker) |
+| `cartItems` | `array` | Order (Both) | User's personal cart items |
+| `mySubtotal` | `number` | Order (Both) | Sum of user's cart items (₱) |
+| `groupItemsTotal` | `number` | Group Order | Sum of group members' items (₱780 fixed in prototype) |
+| `selectedPayment` | `string` | Order (Both) | Active payment method key |
+| `splitMode` | `string` | Group Order | Active split mode ('even', 'item', 'custom') |
+
+### 6.5 Session Handoff Object (Single User)
+
+```json
+{
+  "winner": {
+    "id": 1,
+    "name": "Wood-fired Pizza",
+    "subtitle": "Charred crust, fresh mozzarella",
+    "icon": "🍕",
+    "image": "images/woodfired_pizza.png",
+    "category": "Italian",
+    "isSuperCrave": false,
+    "timeSpent": 3420
+  },
+  "runnerUps": [],
+  "mood": "comfort",
+  "isSuper": false
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `winner` | `object` | The winning food card object (with added `timeSpent` and optional `isSuperCrave`) |
+| `runnerUps` | `array` | Other craved foods that didn't win |
+| `mood` | `string` | The mood that was selected ('comfort', 'stress', 'happy', 'light') |
+| `isSuper` | `boolean` | Whether the win was via Super Crave gesture |
 
 ---
 
@@ -613,11 +840,15 @@ RULE: Ally Drop
 | Max members per session | 20 | Server load + UX readability |
 | Invite link expiry | 2 hours | Prevent ghost sessions |
 | Min members to start | 1 (Hunt Master alone) | Allow solo use |
-| Cards per deck | 8 | Optimal for 60-second swipe sessions |
+| Cards per deck (Group) | 8 | Optimal for 60-second swipe sessions |
+| Cards per deck (Solo) | 5 | Faster solo sessions with curated mood decks |
 | Swipe threshold (drag) | 80px | Balance between accidental and intentional |
-| Stamp visibility threshold | 40px | Early visual feedback before commit |
-| Confetti particles | 60 | Celebratory without lag |
-| Confetti max frames | 120 | ~2 seconds at 60fps |
+| Super Crave threshold (up) | 80px (with |Δy| > |Δx|) | Prevents accidental vertical swipes |
+| Stamp visibility threshold | 40px (60px for Super) | Early visual feedback before commit |
+| Confetti particles (Group) | 60 | Celebratory without lag |
+| Confetti particles (Solo) | 40 | Slightly lighter for solo context |
+| Tiebreaker sort key | `timeSpent` (ms, descending) | Longer admiration = stronger preference |
+| Session handoff | `sessionStorage` | Persists within tab, clears on close |
 
 ---
 
@@ -627,27 +858,36 @@ RULE: Ally Drop
 
 ```
 Pickaroo-Crave-Match/
-├── index.html              # Screen 1: Lobby (entry point)
+├── index.html              # Screen 1: Lobby (Group entry point)
 ├── stylesheet.css           # Global design system + lobby styles
 ├── script.js                # Lobby logic (feed, invite, navigate)
-├── crave_match.html         # Screen 2: Swipe cards
+├── crave_match.html         # Screen 2: Group swipe cards
 ├── crave_match.css          # Swipe styles (cards, stamps, controls)
-├── crave_match.js           # Swipe logic (gestures, tracking, match, confetti)
-├── shared_order.html        # Screen 3: Hub ordering + payment
+├── crave_match.js           # Group swipe logic (gestures, tracking, match, confetti)
+├── shared_order.html        # Screen 3: Group hub ordering + payment
 ├── shared_order.css         # Order styles (split, methods, totals)
-├── shared_order.js          # Order logic (picker, cart, split calc, checkout)
-├── images/                  # AI-generated food photography
-│   ├── smash_burger.png     # (856 KB)
-│   ├── woodfired_pizza.png  # (1.1 MB)
-│   ├── sushi_platter.png    # (769 KB)
-│   ├── loaded_tacos.png     # (946 KB)
-│   ├── boba_milktea.png     # (679 KB)
-│   ├── ramen_bowl.png       # (860 KB)
-│   ├── fried_chicken.png    # (922 KB)
-│   └── desserts_sweets.png  # (851 KB)
-├── docs/                    # This documentation
+├── shared_order.js          # Group order logic (picker, cart, split calc, checkout)
+├── single_crave_match.html  # Screen 2S: Solo mood select + swipe
+├── single_crave_match.js    # Solo swipe (mood decks, super crave, tiebreaker)
+├── single_order.html        # Screen 3S: Solo ordering
+├── single_order.js          # Solo order logic (picker, cart, checkout)
+├── images/                  # AI-generated food photography + avatars
+│   ├── smash_burger.png
+│   ├── woodfired_pizza.png
+│   ├── sushi_platter.png
+│   ├── loaded_tacos.png
+│   ├── boba_milktea.png
+│   ├── ramen_bowl.png
+│   ├── fried_chicken.png
+│   ├── desserts_sweets.png
+│   ├── avatar_raff.png
+│   ├── avatar_maan.png
+│   ├── avatar_john.png
+│   ├── avatar_default.png
+│   └── icons/gcash.png
+├── docs/
 │   └── DOCUMENTATION.md
-└── README.md                # Quick start guide
+└── README.md
 ```
 
 ### 8.2 Design System Tokens

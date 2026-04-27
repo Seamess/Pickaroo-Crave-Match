@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickaroo — Solo Order</title>
+    <meta name="description" content="Order your crave match! Browse hub restaurants and place your solo order.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="shared_order.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Solo order overrides — hide group-only elements */
+        .mini-feed { display: none; }
+    </style>
+</head>
+<body>
+
+<!-- Prototype Nav -->
+<div style="position: fixed; top: 20px; right: 20px; background: white; padding: 10px 15px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 9999; display: flex; gap: 10px; font-family: 'Inter', sans-serif; align-items: center; font-size: 14px;">
+    <strong>Mode:</strong>
+    <a href="index.html" style="color: var(--text-secondary); padding: 5px 12px; border-radius: 12px; text-decoration: none; font-weight: 500;">Group Hunt</a>
+    <a href="single_crave_match.html" style="background: var(--turquoise); color: white; padding: 5px 12px; border-radius: 12px; text-decoration: none; font-weight: 600;">Single User</a>
+</div>
+
+<div class="phone-container">
+    <div class="status-bar">
+        <div class="time">9:43</div>
+        <div class="icons">
+            <i class="fa-solid fa-signal" style="font-size: 0.70rem;"></i>
+            <i class="fa-solid fa-wifi" style="font-size: 0.70rem; margin: 0 3px;"></i>
+            <i class="fa-solid fa-battery-full" style="font-size: 0.85rem;"></i>
+        </div>
+    </div>
+
+    <div class="header">
+        <a href="single_crave_match.html" class="back-link"><i class="fa-solid fa-arrow-left"></i></a>
+        <h1>Your Order</h1>
+    </div>
+
+    <div class="scrollable-content">
+
+        <!-- Match Summary Badge (populated by JS) -->
+        <div class="match-badge" id="solo-match-badge">
+            <div class="match-icon" id="solo-match-icon">🍔</div>
+            <div class="match-info">
+                <p class="match-title" id="solo-match-title">Your top crave!</p>
+                <p class="match-sub" id="solo-match-sub">Based on your swipes</p>
+            </div>
+            <div class="hub-pill"><i class="fa-solid fa-shop" style="margin-right: 3px;"></i> Uptown Mall</div>
+        </div>
+
+        <!-- Hub + Orders -->
+        <div class="section-card">
+            <div class="hub-header">
+                <div>
+                    <span class="hub-badge">Hub Delivery</span>
+                    <h2>Uptown Mall Hub</h2>
+                    <p class="hub-subtitle">1 Delivery Fee • Your Pick</p>
+                </div>
+                <div class="fee-badge">₱49</div>
+            </div>
+
+            <!-- Your Items -->
+            <div class="your-cart-section">
+                <h3 class="section-title">Your Items</h3>
+                <div id="solo-order-list" class="empty-cart">
+                    Tap below to add from Uptown Mall 🍽️
+                </div>
+                <button id="solo-add-btn" class="btn-add">
+                    <i class="fa-solid fa-plus" style="margin-right: 6px;"></i>Add from Hub
+                </button>
+            </div>
+        </div>
+
+        <!-- Payment Method Section -->
+        <div class="section-card split-section">
+            <h3 class="section-title">Payment</h3>
+
+            <!-- Payment Method -->
+            <div class="payment-methods">
+                <div class="section-label">Pay with</div>
+                <div class="methods-scroll" id="solo-payment-methods">
+                    <div class="method-card selected" data-method="gcash">
+                        <div class="method-icon gcash">
+                            <img src="images/icons/gcash.png" alt="GCash" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: white;">
+                        </div>
+                        <span class="method-name">GCash</span>
+                    </div>
+                    <div class="method-card" data-method="maya">
+                        <div class="method-icon maya">
+                            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="36" height="36" rx="8" fill="#00C853"/>
+                                <path d="M9 22V14l4.5 5.5L18 14l4.5 5.5L27 14v8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <span class="method-name">Maya</span>
+                    </div>
+                    <div class="method-card" data-method="card">
+                        <div class="method-icon card"><i class="fa-solid fa-credit-card" style="font-size: 0.85rem;"></i></div>
+                        <span class="method-name">Card</span>
+                    </div>
+                    <div class="method-card" data-method="cod">
+                        <div class="method-icon cod"><i class="fa-solid fa-money-bill-wave" style="font-size: 0.8rem;"></i></div>
+                        <span class="method-name">Cash on Delivery</span>
+                    </div>
+                    <div class="method-card" data-method="qrph">
+                        <div class="method-icon qrph">
+                            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="36" height="36" rx="8" fill="#E8F0FE"/>
+                                <rect x="8" y="8" width="8" height="8" rx="1" fill="#0033A0"/>
+                                <rect x="20" y="8" width="8" height="8" rx="1" fill="#CE1126"/>
+                                <rect x="8" y="20" width="8" height="8" rx="1" fill="#FCD116"/>
+                                <rect x="20" y="20" width="8" height="8" rx="1" fill="#0033A0"/>
+                                <rect x="10" y="10" width="4" height="4" rx="0.5" fill="white"/>
+                                <rect x="22" y="10" width="4" height="4" rx="0.5" fill="white"/>
+                                <rect x="10" y="22" width="4" height="4" rx="0.5" fill="white"/>
+                            </svg>
+                        </div>
+                        <span class="method-name">QR Ph</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Totals -->
+        <div class="section-card total-section">
+            <div class="total-row">
+                <span class="label">Subtotal</span>
+                <span id="solo-subtotal">₱0.00</span>
+            </div>
+            <div class="total-row">
+                <span class="label">Hub Delivery Fee <i class="fa-solid fa-circle-info info-icon"></i></span>
+                <span>₱49.00</span>
+            </div>
+            <div class="total-row" id="solo-discount-row" style="display: none; color: var(--sage); font-weight: 600;">
+                <span class="label"><i class="fa-solid fa-tag"></i> Stack Discount</span>
+                <span id="solo-discount-display">-₱0.00</span>
+            </div>
+            <div class="total-row grand-total">
+                <span>Total</span>
+                <span class="amount" id="solo-total-price">₱49.00</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <button id="solo-checkout-btn" class="btn-primary">Place My Order</button>
+        <div class="home-indicator"></div>
+    </div>
+</div>
+
+<script src="single_order.js"></script>
+</body>
+</html>

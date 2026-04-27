@@ -296,7 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateRemainingCards() {
-        const remaining = foodCards.length - currentIndex;
         const cardsInDOM = cardContainer.querySelectorAll('.swipe-card');
 
         cardsInDOM.forEach((card, i) => {
@@ -359,6 +358,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fire confetti
         fireConfetti();
 
+        // Store match data in sessionStorage for the order page
+        sessionStorage.setItem('singleMatchData', JSON.stringify({
+            winner: winningFood,
+            runnerUps: craved.filter(f => f.id !== winningFood.id),
+            mood: currentMood,
+            isSuper: isSuper
+        }));
+
         let htmlOptions = `
             <div style="background: white; border-radius: 12px; padding: 12px 14px; text-align: left; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 12px; position: relative;">
                 <span style="font-size: 0.65rem; font-weight: 700; color: white; background: ${isSuper ? '#FFB347' : 'var(--turquoise)'}; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; position: absolute; right: 10px; top: -10px;">${isSuper ? '★ Super Crave' : '🏆 Ultimate Winner'}</span>
@@ -401,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
             customClass: { popup: 'modern-modal' }
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire('Success!', 'Finding the best restaurants for your cravings...', 'success');
+                window.location.href = 'single_order.html';
             }
         });
     }
@@ -467,61 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1200);
     }
-                                <div style="font-size: 0.75rem; color: #6B7280; margin-top: 2px;">Admired for: ${(food.timeSpent/1000).toFixed(1)}s</div>
-                            </div>
-                        </button>
-                    `;
-                });
-
-                Swal.fire({
-                    title: 'Sudden Death! ⚔️',
-                    html: `
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">You strongly liked multiple foods. Tap the one you want the most!</p>
-                        ${tieOptions}
-                    `,
-                    showConfirmButton: false,
-                    allowOutsideClick: false,
-                    customClass: { popup: 'modern-modal' }
-                });
-            }
-        }, 1200);
-    }
-                let badge = index === 0 ? '<span style="font-size: 0.65rem; font-weight: 700; color: white; background: var(--turquoise); padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; position: absolute; right: 10px; top: -10px;">Top Crave</span>' : '';
-                
-                htmlOptions += `
-                    <div style="background: white; border-radius: 12px; padding: 12px 14px; text-align: left; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 12px; position: relative;">
-                        ${badge}
-                        <div style="font-size: 1.8rem; background: var(--turquoise-soft); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">${food.icon}</div>
-                        <div>
-                            <div style="font-weight: 700; color: #1A1A2E; font-size: 1rem; font-family: 'Outfit', sans-serif;">${food.name}</div>
-                            <span style="font-size: 0.75rem; color: #6B7280;">${food.subtitle}</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            Swal.fire({
-                html: `
-                    <div style="text-align: center; font-family: 'Inter', sans-serif; padding-top: 8px;">
-                        <h2 style="margin: 0 0 16px 0; color: #1A1A2E; font-size: 1.4rem; font-weight: 700; font-family: 'Outfit', sans-serif;">Your Personal Pick!</h2>
-                        
-                        <div style="background: #FAF8F5; border-radius: 16px; padding: 14px; margin-bottom: 16px;">
-                            ${htmlOptions}
-                        </div>
-                    </div>
-                `,
-                showConfirmButton: true,
-                confirmButtonText: 'Browse Restaurants <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>',
-                confirmButtonColor: '#1DE1CE',
-                allowOutsideClick: false,
-                customClass: { popup: 'modern-modal' }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire('Success!', 'Finding the best restaurants for your cravings...', 'success');
-                }
-            });
-        }, 1200);
-    }
 
     // ===========================================
     //  CONFETTI
@@ -575,8 +527,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         animate();
     }
-
-    // Init (We no longer init cards on load, we wait for emotion selection)
-    // renderCards();
-    // renderProgressDots();
 });
